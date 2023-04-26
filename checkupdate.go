@@ -81,7 +81,7 @@ func main() {
 	for k, v := range status {
 		fmt.Println(k, ": ", strings.Join(v, ", "))
 	}
-	fmt.Printf("用时 %.2f 秒\n", time.Now().Sub(t1).Seconds())
+	fmt.Printf("用时 %.2f 秒\n", time.Since(t1).Seconds())
 	if runtime.GOOS == "windows" {
 		_, _ = fmt.Scanln()
 	}
