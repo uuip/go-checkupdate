@@ -30,6 +30,7 @@ func parseDevManView(resp *resty.Response) (string, error) {
 	}).Next().Find("li:nth-child(1)").First().Text()
 	return numVersion(element), nil
 }
+
 func parseVmware(resp *resty.Response) (string, error) {
 	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(resp.Body()))
 	if err != nil {
@@ -42,6 +43,7 @@ func parseVmware(resp *resty.Response) (string, error) {
 	semver.Sort(vs)
 	return numVersion(vs[len(vs)-1].String()), nil
 }
+
 func parseWinrar(resp *resty.Response) (string, error) {
 	re, _ := regexp.Compile("^WinRAR.*elease")
 	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(resp.Body()))
@@ -53,6 +55,7 @@ func parseWinrar(resp *resty.Response) (string, error) {
 	}).First().Text()
 	return numVersion(element), nil
 }
+
 func parseFaststone(resp *resty.Response) (string, error) {
 	re, _ := regexp.Compile(`Version\s*[.\d]+`)
 	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(resp.Body()))

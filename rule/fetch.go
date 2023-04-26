@@ -49,17 +49,11 @@ func FetchApp(app *models.VerModel) (string, error) {
 
 		switch app.Name {
 		case "PyCharm":
-			{
-				rst = gjson.GetBytes(resp.Body(), "PCP.0.version")
-			}
+			rst = gjson.GetBytes(resp.Body(), "PCP.0.version")
 		case "Clash":
-			{
-				rst = gjson.GetBytes(resp.Body(), "name")
-			}
+			rst = gjson.GetBytes(resp.Body(), "name")
 		default:
-			{
-				rst = gjson.GetBytes(resp.Body(), "tag_name")
-			}
+			rst = gjson.GetBytes(resp.Body(), "tag_name")
 		}
 		return rst.String(), nil
 	} else {
