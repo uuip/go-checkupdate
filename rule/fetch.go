@@ -55,7 +55,7 @@ func FetchApp(app *models.VerModel) (string, error) {
 		default:
 			rst = gjson.GetBytes(resp.Body(), "tag_name")
 		}
-		return rst.String(), nil
+		return numVersion(rst.String()), nil
 	} else {
 		resp, err := client.R().Get(app.Url)
 		if err != nil {
