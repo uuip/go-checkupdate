@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	"checkupdate/models"
+	. "checkupdate/models"
 	"github.com/go-resty/resty/v2"
 	"github.com/tidwall/gjson"
 )
@@ -13,7 +13,7 @@ var TOKEN = os.Getenv("GITHUB_TOKEN")
 
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:112.0) Gecko/20100101 Firefox/112.0"
 
-func FetchApp(app *models.VerModel) (string, error) {
+func FetchApp(app *VerModel) (string, error) {
 	client := resty.New().SetHeader("user-agent", UA)
 	if app.Name == "Fences" {
 		resp, err := client.R().Head(app.Url)
@@ -65,7 +65,7 @@ func FetchApp(app *models.VerModel) (string, error) {
 	}
 }
 
-func findRuleFn(app *models.VerModel, resp *resty.Response) (string, error) {
+func findRuleFn(app *VerModel, resp *resty.Response) (string, error) {
 	if fn, ok := fnRules[app.Name]; ok {
 		return fn(resp)
 	}

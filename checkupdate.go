@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"checkupdate/models"
+	. "checkupdate/models"
 	"checkupdate/rule"
 	"github.com/fatih/color"
 	"github.com/glebarez/sqlite"
@@ -25,23 +25,23 @@ func main() {
 	status["success"] = []string{}
 	status["failed"] = []string{}
 
-	var dsn string
+	var (
+		dsn  string
+		app  VerModel
+		apps []VerModel
+	)
 	if runtime.GOOS == "darwin" {
 		dsn = "/Users/sharp/Downloads/ver_tab.db"
 	} else {
 		dsn = `c:/Users/sharp/AppData/Local/Programs/checkupdate/ver_tab.db`
 	}
 	db, _ := gorm.Open(sqlite.Open(dsn), &gorm.Config{})
-	var (
-		app  models.VerModel
-		apps []models.VerModel
-	)
 	db.Where("name=?", "fzf").Take(&app)
+	db.Find(&apps)
 	aj, _ := json.Marshal(app)
 	fmt.Println(string(aj))
 
 	var wg sync.WaitGroup
-	db.Find(&apps)
 	wg.Add(len(apps))
 	ch := make(chan [2]string, 10)
 	for _, item := range apps {
@@ -52,15 +52,15 @@ func main() {
 			if err != nil || newVer == "" {
 				ch <- [2]string{item.Name, ""}
 				if err == nil {
-					fmt.Printf(red("%s failed\n"), item.Name)
+					fmt.Printf(red("%s failed\n%s\n"), item.Name, strings.Repeat("=", 36))
 				} else {
-					fmt.Printf(red("%s failed\n %s\n"), item.Name, err)
+					fmt.Printf(red("%s failed\n %s\n%s\n"), item.Name, err, strings.Repeat("=", 36))
 				}
 				return
 			}
 			if newVer != item.Ver {
 				ch <- [2]string{item.Name, newVer}
-				fmt.Println(item.Name, green(newVer))
+				fmt.Println(item.Name, green(newVer), "\n", strings.Repeat("=", 36))
 			}
 		}()
 	}
@@ -75,7 +75,7 @@ func main() {
 			status["failed"] = append(status["failed"], appname)
 		} else {
 			status["success"] = append(status["success"], appname)
-			db.Model(&models.VerModel{}).Where("name=?", appname).Update("Ver", newver)
+			db.Model(&VerModel{}).Where("name=?", appname).Update("Ver", newver)
 		}
 	}
 	for k, v := range status {
@@ -87,13 +87,4 @@ func main() {
 	}
 
 	//fmt.Println(strconv.FormatInt(55, 10))
-
-	//var arr = []int{1, 2, 3}
-	//scoreMap := make(map[string]int)
-
-	//s := "abcd"
-	//for i, n := 0, len(s); i < n; i++ {
-	//	fmt.Println(n)
-	//	println(i, string(s[i]))
-	//}
 }

@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"regexp"
 
-	"checkupdate/models"
+	. "checkupdate/models"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/coreos/go-semver/semver"
 	"github.com/go-resty/resty/v2"
@@ -12,7 +12,7 @@ import (
 
 var numRe, _ = regexp.Compile(`[.\d]*\d`)
 
-func parseByCss(app *models.VerModel, resp *resty.Response) (string, error) {
+func parseByCss(app *VerModel, resp *resty.Response) (string, error) {
 	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(resp.Body()))
 	if err != nil {
 		return "", err
