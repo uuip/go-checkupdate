@@ -85,6 +85,4 @@ func main() {
 	if runtime.GOOS == "windows" {
 		_, _ = fmt.Scanln()
 	}
-
-	//fmt.Println(strconv.FormatInt(55, 10))
 }
