@@ -48,7 +48,7 @@ func main() {
 		item := item
 		go func() {
 			defer wg.Done()
-			newVer, err := rule.FetchApp(&item)
+			newVer, err := rule.ParseApp(&item)
 			if err != nil || newVer == "" {
 				ch <- [2]string{item.Name, ""}
 				if err == nil {

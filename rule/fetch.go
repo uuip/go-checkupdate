@@ -13,7 +13,7 @@ var TOKEN = os.Getenv("GITHUB_TOKEN")
 
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:112.0) Gecko/20100101 Firefox/112.0"
 
-func FetchApp(app *VerModel) (string, error) {
+func ParseApp(app *VerModel) (string, error) {
 	client := resty.New().SetHeader("user-agent", UA)
 	if app.Name == "Fences" {
 		resp, err := client.R().Head(app.Url)
@@ -61,11 +61,11 @@ func FetchApp(app *VerModel) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		return findRuleFn(app, resp)
+		return parseVersion(app, resp)
 	}
 }
 
-func findRuleFn(app *VerModel, resp *resty.Response) (string, error) {
+func parseVersion(app *VerModel, resp *resty.Response) (string, error) {
 	if fn, ok := fnRules[app.Name]; ok {
 		return fn(resp)
 	}
