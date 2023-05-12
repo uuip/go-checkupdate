@@ -62,7 +62,7 @@ func main() {
 				ch <- [2]string{item.Name, newVer}
 				fmt.Println(item.Name, green(newVer), "\n", strings.Repeat("=", 36))
 			} else {
-				fmt.Println(item.Name, "没有更新", "\n", strings.Repeat("=", 36))
+				fmt.Printf("%s 没有更新\n%s\n", item.Name, strings.Repeat("=", 36))
 			}
 		}()
 	}
