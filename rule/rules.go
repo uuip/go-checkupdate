@@ -68,19 +68,6 @@ func parseFaststone(resp *resty.Response) (string, error) {
 	return numVersion(element), nil
 }
 
-func parseBeyondCompare(resp *resty.Response) (string, error) {
-	re, _ := regexp.Compile("Current Version.+")
-	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(resp.Body()))
-	if err != nil {
-		return "", err
-	}
-	element := doc.Find("p").FilterFunction(func(i int, selection *goquery.Selection) bool {
-		return re.MatchString(selection.Text())
-	}).First().Text()
-	return numVersion(element), err
-
-}
-
 func parsePython(resp *resty.Response) (string, error) {
 	doc, err := goquery.NewDocumentFromReader(bytes.NewReader(resp.Body()))
 	if err != nil {

@@ -16,14 +16,14 @@ var cssRules = map[string]string{
 	"WGestures 2 [Mac]": "a#download:nth-of-type(2)",
 	"Git":               ".version",
 	"AIDA64":            "td.version",
+	"Beyond Compare":    ".hasicon",
 }
 
 var fnRules = map[string]func(resp *resty.Response) (string, error){
-	"Beyond Compare": parseBeyondCompare,
-	"DevManView":     parseDevManView,
-	"FS Capture":     parseFaststone,
-	"FS Viewer":      parseFaststone,
-	"Python":         parsePython,
-	"VMware":         parseVmware,
-	"WinRAR":         parseWinrar,
+	"DevManView": parseDevManView,
+	"FS Capture": parseFaststone,
+	"FS Viewer":  parseFaststone,
+	"Python":     parsePython,
+	"VMware":     parseVmware,
+	"WinRAR":     parseWinrar,
 }
