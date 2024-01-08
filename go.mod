@@ -7,7 +7,7 @@ require (
 	github.com/coreos/go-semver v0.3.1
 	github.com/fatih/color v1.15.0
 	github.com/glebarez/sqlite v1.10.0
-	github.com/go-resty/resty/v2 v2.10.0
+	github.com/go-resty/resty/v2 v2.11.0
 	github.com/tidwall/gjson v1.17.0
 	gorm.io/gorm v1.25.5
 )
